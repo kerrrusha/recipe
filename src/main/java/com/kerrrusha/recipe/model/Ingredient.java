@@ -2,7 +2,6 @@ package com.kerrrusha.recipe.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +12,7 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-public class Ingredient extends AbstractPersistable<Long> {
+public class Ingredient extends BaseEntity {
 
     private String description;
     private BigDecimal amount;
@@ -23,5 +22,14 @@ public class Ingredient extends AbstractPersistable<Long> {
 
     @ManyToOne
     private Recipe recipe;
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "description='" + description + '\'' +
+                ", amount=" + amount +
+                ", unitOfMeasure=" + unitOfMeasure +
+                '}';
+    }
 
 }

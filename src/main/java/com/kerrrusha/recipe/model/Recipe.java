@@ -2,7 +2,6 @@ package com.kerrrusha.recipe.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,14 +9,16 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-public class Recipe extends AbstractPersistable<Long> {
+public class Recipe extends BaseEntity {
 
     private String description;
     private Integer prepTime;
     private Integer cookTime;
-    private Integer servings;
-    private String source;
+    private Integer servingsMin;
+    private Integer servingsMax;
     private String url;
+
+    @Lob
     private String directions;
 
     @Enumerated(value = EnumType.STRING)
@@ -37,5 +38,9 @@ public class Recipe extends AbstractPersistable<Long> {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients;
+
+    public String getServingsString() {
+        return servingsMin.equals(servingsMax) ? servingsMin+"" : servingsMin+" - "+servingsMax;
+    }
 
 }

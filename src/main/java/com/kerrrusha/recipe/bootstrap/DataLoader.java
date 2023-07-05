@@ -94,9 +94,10 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         Ingredient ingredient1 = new Ingredient();
         ingredient1.setDescription("avocado");
-        ingredient1.setAmount(BigDecimal.valueOf(2));
+        ingredient1.setAmount(new BigDecimal(".25"));
         ingredient1.setUnitOfMeasure(piece);
         ingredient1.setRecipe(guacamole);
+        guacamole.addIngredient(ingredient1);
 
         UnitOfMeasure teaspoon = new UnitOfMeasure();
         teaspoon.setName("teaspoon");
@@ -107,8 +108,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         ingredient2.setAmount(BigDecimal.valueOf(1/4.0));
         ingredient2.setUnitOfMeasure(teaspoon);
         ingredient2.setRecipe(guacamole);
-
-        guacamole.setIngredients(Set.of(ingredient1, ingredient2));
+        guacamole.addIngredient(ingredient2);
 
         return guacamole;
     }

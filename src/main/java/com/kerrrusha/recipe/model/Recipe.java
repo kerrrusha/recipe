@@ -45,7 +45,9 @@ public class Recipe extends BaseEntity {
     private Set<Ingredient> ingredients = new HashSet<>();
 
     public String getServingsString() {
-        return servingsMin.equals(servingsMax) ? servingsMin+"" : servingsMin+" - "+servingsMax;
+        return servingsMin.equals(servingsMax)
+                ? "" + servingsMin
+                : servingsMin + " - " + servingsMax;
     }
 
     public void setNotes(Notes notes) {

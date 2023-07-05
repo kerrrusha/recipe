@@ -1,7 +1,9 @@
 package com.kerrrusha.recipe.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,6 +12,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@SuperBuilder
+@NoArgsConstructor
 public class Recipe extends BaseEntity {
 
     private String description;

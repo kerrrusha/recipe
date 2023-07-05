@@ -62,7 +62,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 Note: Chilling tomatoes hurts their flavor. So, if you want to add chopped tomato to your guacamole, add it just before serving.""");
 
         Notes guacamoleNotes = new Notes();
-        guacamoleNotes.setNotes("Be careful handling chilis! If using, it's best to wear food-safe gloves. If no gloves are available, wash your hands thoroughly after handling, and do not touch your eyes or the area near your eyes for several hours afterwards.");
+        guacamoleNotes.setContent("Be careful handling chilis! If using, it's best to wear food-safe gloves. If no gloves are available, wash your hands thoroughly after handling, and do not touch your eyes or the area near your eyes for several hours afterwards.");
         guacamole.setNotes(guacamoleNotes);
         guacamole.setUrl("https://www.simplyrecipes.com/recipes/perfect_guacamole/");
         guacamole.setDescription("The best guacamole keeps it simple: just ripe avocados and a handful of flavorful mix-ins. Serve it as a dip at your next party or spoon it on top of tacos for an easy dinner upgrade.");

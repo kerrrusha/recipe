@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 public class Notes extends BaseEntity {
 
     @Lob
-    private String notes;
+    private String content;
 
     @OneToOne
     private Recipe recipe;
@@ -21,7 +21,7 @@ public class Notes extends BaseEntity {
     @Override
     public String toString() {
         return "Notes{" +
-                "notes='" + notes + '\'' +
+                "content='" + content + '\'' +
                 '}';
     }
 

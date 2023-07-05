@@ -1,10 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <title>Show Recipe</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/5.3.0/dist/css/bootstrap.min.css}">
 </head>
 <body>
+<div class="container-fluid mt-3">
+    <div class="d-flex flex-row justify-content-center">
+        <div class="px-5 py-3 col-md-6">
+            <ul class="list-group list-group-flush">
+                <li class="card my-2">
+                    <div class="card-header bg-primary">
+                        <strong class="text-white" th:text="${recipe.description}">Recipe Description Here!</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Categories:</b>
+                            </div>
+                            <div class="col-md-9">
+                                <ul th:each="category:${recipe.getCategories()}">
+                                    <li th:text="${category.getName()}">cat one</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Prep Time:</b>
+                            </div>
+                            <div class="col-md-3">
+                                <p th:text="${recipe.getPrepTime()} + ' min'">30 min</p>
+                            </div>
+                            <div class="col-md-3">
+                                <b>Difficulty:</b>
+                            </div>
+                            <div class="col-md-3">
+                                <p th:text="${recipe.getDifficulty().name()}">Easy</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Cooktime:</b>
+                            </div>
+                            <div class="col-md-3">
+                                <p th:text="${recipe.getCookTime()} + ' min'">30 min</p>
+                            </div>
+                            <div class="col-md-3">
+                                <b>Servings:</b>
+                            </div>
+                            <div class="col-md-3">
+                                <p th:text="${recipe.getServingsString()}">4</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>URL:</b>
+                            </div>
+                            <div class="col-md-9">
+                                <a th:href="${recipe.getUrl()}" th:text="${recipe.getUrl()}" href="#"></a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="card my-2">
+                    <div class="card-header bg-primary">
+                        <strong class="text-white">Ingredients</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul th:each="category:${recipe.getIngredients()}">
+                                    <li th:text="${category.toFormatted()}">1 Cup of milk</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="card my-2">
+                    <div class="card-header bg-primary">
+                        <strong class="text-white">Directions</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p th:text="${recipe.getDirections()}">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="card my-2">
+                    <div class="card-header bg-primary">
+                        <strong class="text-white">Notes</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p th:text="${recipe.getNotes().getContent()}">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
+<script src="/webjars/jquery/3.7.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"
+        th:src="@{/webjars/bootstrap/5.3.0/dist/js/bootstrap.min.js}"></script>
 </body>
 </html>

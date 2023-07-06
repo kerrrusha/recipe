@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Entity
@@ -29,7 +30,7 @@ public class Recipe extends BaseEntity {
     private String directions;
 
     @Enumerated(value = EnumType.STRING)
-    private Difficulty difficulty;
+    private Difficulty difficulty = Difficulty.NONE;
 
     @Lob
     private Byte[] image;
@@ -57,6 +58,10 @@ public class Recipe extends BaseEntity {
         if (nonNull(notes)) {
             notes.setRecipe(this);
         }
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = isNull(difficulty) ? Difficulty.NONE : difficulty;
     }
 
     public void addIngredient(Ingredient ingredient) {

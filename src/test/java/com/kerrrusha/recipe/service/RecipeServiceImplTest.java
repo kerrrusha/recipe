@@ -1,5 +1,15 @@
 package com.kerrrusha.recipe.service;
 
+import com.kerrrusha.recipe.converter.category.CategoryCommandToCategoryConverter;
+import com.kerrrusha.recipe.converter.category.CategoryToCategoryCommandConverter;
+import com.kerrrusha.recipe.converter.ingredient.IngredientCommandToIngredientConverter;
+import com.kerrrusha.recipe.converter.ingredient.IngredientToIngredientCommandConverter;
+import com.kerrrusha.recipe.converter.notes.NotesCommandToNotesConverter;
+import com.kerrrusha.recipe.converter.notes.NotesToNotesCommandConverter;
+import com.kerrrusha.recipe.converter.recipe.RecipeCommandToRecipeConverter;
+import com.kerrrusha.recipe.converter.recipe.RecipeToRecipeCommandConverter;
+import com.kerrrusha.recipe.converter.uom.UnitOfMeasureCommandToUnitOfMeasureConverter;
+import com.kerrrusha.recipe.converter.uom.UnitOfMeasureToUnitOfMeasureCommandConverter;
 import com.kerrrusha.recipe.model.Recipe;
 import com.kerrrusha.recipe.repository.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,9 +32,21 @@ class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    RecipeCommandToRecipeConverter recipeCommandToRecipeConverter = new RecipeCommandToRecipeConverter(
+            new CategoryCommandToCategoryConverter(),
+            new IngredientCommandToIngredientConverter(new UnitOfMeasureCommandToUnitOfMeasureConverter()),
+            new NotesCommandToNotesConverter()
+    );
+
+    RecipeToRecipeCommandConverter recipeToRecipeCommandConverter = new RecipeToRecipeCommandConverter(
+            new CategoryToCategoryCommandConverter(),
+            new IngredientToIngredientCommandConverter(new UnitOfMeasureToUnitOfMeasureCommandConverter()),
+            new NotesToNotesCommandConverter()
+    );
+
     @BeforeEach
     void setUp() {
-        service = new RecipeServiceImpl(recipeRepository);
+        service = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipeConverter, recipeToRecipeCommandConverter);
     }
 
     @Test

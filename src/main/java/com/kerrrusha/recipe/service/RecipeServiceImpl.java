@@ -1,18 +1,26 @@
 package com.kerrrusha.recipe.service;
 
+import com.kerrrusha.recipe.command.RecipeCommand;
+import com.kerrrusha.recipe.converter.recipe.RecipeCommandToRecipeConverter;
+import com.kerrrusha.recipe.converter.recipe.RecipeToRecipeCommandConverter;
 import com.kerrrusha.recipe.model.Recipe;
 import com.kerrrusha.recipe.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final RecipeCommandToRecipeConverter recipeCommandToRecipeConverter;
+    private final RecipeToRecipeCommandConverter recipeToRecipeCommandConverter;
 
     @Override
     public Set<Recipe> findAll() {
@@ -24,6 +32,17 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe findById(Long id) {
         return recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recipe was not found by given id: " + id));
+    }
+
+    @Override
+    @Transactional
+    public RecipeCommand saveRecipeCommand(RecipeCommand command) {
+        Recipe detachedRecipe = recipeCommandToRecipeConverter.convert(command);
+
+        assert detachedRecipe != null;
+        Recipe savedRecipe = recipeRepository.save(detachedRecipe);
+        log.debug("Saved RecipeId:" + savedRecipe.getId());
+        return recipeToRecipeCommandConverter.convert(savedRecipe);
     }
 
 }

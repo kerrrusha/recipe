@@ -16,4 +16,8 @@ public class IngredientCommand {
     private BigDecimal amount;
     private UnitOfMeasureCommand unitOfMeasure;
 
+    public String toFormatted() {
+        return amount + " " + unitOfMeasure.getName() + " of " + description;
+    }
+
 }

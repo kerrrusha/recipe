@@ -32,8 +32,4 @@ public class Ingredient extends BaseEntity {
                 '}';
     }
 
-    public String toFormatted() {
-        return amount + " " + unitOfMeasure.getName() + " of " + description;
-    }
-
 }

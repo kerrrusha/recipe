@@ -1,8 +1,16 @@
-package com.kerrrusha.recipe.service;
+package com.kerrrusha.recipe.service.recipe;
 
 import com.kerrrusha.recipe.command.RecipeCommand;
+import com.kerrrusha.recipe.converter.category.CategoryCommandToCategoryConverter;
+import com.kerrrusha.recipe.converter.category.CategoryToCategoryCommandConverter;
+import com.kerrrusha.recipe.converter.ingredient.IngredientCommandToIngredientConverter;
+import com.kerrrusha.recipe.converter.ingredient.IngredientToIngredientCommandConverter;
+import com.kerrrusha.recipe.converter.notes.NotesCommandToNotesConverter;
+import com.kerrrusha.recipe.converter.notes.NotesToNotesCommandConverter;
 import com.kerrrusha.recipe.converter.recipe.RecipeCommandToRecipeConverter;
 import com.kerrrusha.recipe.converter.recipe.RecipeToRecipeCommandConverter;
+import com.kerrrusha.recipe.converter.uom.UnitOfMeasureCommandToUnitOfMeasureConverter;
+import com.kerrrusha.recipe.converter.uom.UnitOfMeasureToUnitOfMeasureCommandConverter;
 import com.kerrrusha.recipe.model.Recipe;
 import com.kerrrusha.recipe.repository.RecipeRepository;
 import com.kerrrusha.recipe.service.impl.RecipeServiceImpl;
@@ -26,11 +34,17 @@ class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
-    @Mock
-    RecipeCommandToRecipeConverter recipeCommandToRecipeConverter;
+    RecipeCommandToRecipeConverter recipeCommandToRecipeConverter = new RecipeCommandToRecipeConverter(
+            new CategoryCommandToCategoryConverter(),
+            new IngredientCommandToIngredientConverter(new UnitOfMeasureCommandToUnitOfMeasureConverter()),
+            new NotesCommandToNotesConverter()
+    );
 
-    @Mock
-    RecipeToRecipeCommandConverter recipeToRecipeCommandConverter;
+    RecipeToRecipeCommandConverter recipeToRecipeCommandConverter = new RecipeToRecipeCommandConverter(
+            new CategoryToCategoryCommandConverter(),
+            new IngredientToIngredientCommandConverter(new UnitOfMeasureToUnitOfMeasureCommandConverter()),
+            new NotesToNotesCommandConverter()
+    );
 
     @BeforeEach
     void setUp() {
@@ -70,10 +84,6 @@ class RecipeServiceImplTest {
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
-
-        RecipeCommand recipeCommand = RecipeCommand.builder().id(1L).build();
-
-        when(recipeToRecipeCommandConverter.convert(any())).thenReturn(recipeCommand);
 
         RecipeCommand commandById = service.findCommandById(1L);
 

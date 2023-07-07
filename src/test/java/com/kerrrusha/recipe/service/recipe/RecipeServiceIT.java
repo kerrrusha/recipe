@@ -1,10 +1,11 @@
-package com.kerrrusha.recipe.service;
+package com.kerrrusha.recipe.service.recipe;
 
 import com.kerrrusha.recipe.command.RecipeCommand;
 import com.kerrrusha.recipe.converter.recipe.RecipeCommandToRecipeConverter;
 import com.kerrrusha.recipe.converter.recipe.RecipeToRecipeCommandConverter;
 import com.kerrrusha.recipe.model.Recipe;
 import com.kerrrusha.recipe.repository.RecipeRepository;
+import com.kerrrusha.recipe.service.RecipeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

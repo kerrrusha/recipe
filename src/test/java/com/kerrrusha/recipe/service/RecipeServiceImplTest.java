@@ -64,7 +64,7 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    public void findRecipeCommandByIdTest() {
+    void findRecipeCommandById() {
         Recipe recipe = Recipe.builder().id(1L).build();
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
@@ -79,6 +79,13 @@ class RecipeServiceImplTest {
         assertNotNull(commandById);
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    void deleteById() {
+        service.deleteById(2L);
+
+        verify(recipeRepository, times(1)).deleteById(anyLong());
     }
 
 }

@@ -1,7 +1,6 @@
 package com.kerrrusha.recipe.controller;
 
 import com.kerrrusha.recipe.command.RecipeCommand;
-import com.kerrrusha.recipe.model.Recipe;
 import com.kerrrusha.recipe.service.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

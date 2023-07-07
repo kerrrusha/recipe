@@ -47,12 +47,6 @@ public class Recipe extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients = new HashSet<>();
 
-    public String getServingsString() {
-        return servingsMin.equals(servingsMax)
-                ? "" + servingsMin
-                : servingsMin + " - " + servingsMax;
-    }
-
     public void setNotes(Notes notes) {
         this.notes = notes;
         if (nonNull(notes)) {

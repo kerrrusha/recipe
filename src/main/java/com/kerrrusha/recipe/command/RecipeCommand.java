@@ -26,4 +26,10 @@ public class RecipeCommand {
     private NotesCommand notes;
     private Set<CategoryCommand> categories = new HashSet<>();
 
+    public String getServingsString() {
+        return servingsMin.equals(servingsMax)
+                ? "" + servingsMin
+                : servingsMin + " - " + servingsMax;
+    }
+
 }

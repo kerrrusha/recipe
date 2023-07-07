@@ -1,16 +1,16 @@
 package com.kerrrusha.recipe.command;
 
 import com.kerrrusha.recipe.model.Difficulty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class RecipeCommand {
 
     private Long id;

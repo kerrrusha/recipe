@@ -30,6 +30,13 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public Set<RecipeCommand> findAllCommands() {
+        Set<RecipeCommand> result = new HashSet<>();
+        recipeRepository.findAll().iterator().forEachRemaining(e -> result.add(recipeToRecipeCommandConverter.convert(e)));
+        return result;
+    }
+
+    @Override
     public Recipe findById(Long id) {
         return recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recipe was not found by given id: " + id));
     }

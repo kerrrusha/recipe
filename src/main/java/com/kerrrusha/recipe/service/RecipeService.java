@@ -9,6 +9,8 @@ public interface RecipeService {
 
     Set<Recipe> findAll();
 
+    Set<RecipeCommand> findAllCommands();
+
     Recipe findById(Long id);
 
     RecipeCommand findCommandById(Long id);

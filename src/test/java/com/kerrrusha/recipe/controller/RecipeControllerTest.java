@@ -37,14 +37,14 @@ class RecipeControllerTest {
 
     @Test
     void showById() throws Exception {
-        Recipe recipe = Recipe.builder().id(1L).build();
-        when(service.findById(anyLong())).thenReturn(recipe);
+        RecipeCommand recipeCommand = RecipeCommand.builder().id(1L).build();
+        when(service.findCommandById(anyLong())).thenReturn(recipeCommand);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/show"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
-        verify(service, times(1)).findById(anyLong());
+        verify(service, times(1)).findCommandById(anyLong());
         verify(service, never()).findAll();
     }
 

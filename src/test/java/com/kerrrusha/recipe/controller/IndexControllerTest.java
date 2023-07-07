@@ -1,5 +1,6 @@
 package com.kerrrusha.recipe.controller;
 
+import com.kerrrusha.recipe.command.RecipeCommand;
 import com.kerrrusha.recipe.model.Recipe;
 import com.kerrrusha.recipe.service.RecipeService;
 import org.junit.jupiter.api.Test;
@@ -44,11 +45,11 @@ class IndexControllerTest {
     @Test
     void index() {
         //given
-        Set<Recipe> givenSet = Set.of(
-                Recipe.builder().id(1L).description("Tasty stuff").build(),
-                Recipe.builder().id(2L).description("Yum yum").build()
+        Set<RecipeCommand> givenSet = Set.of(
+                RecipeCommand.builder().id(1L).description("Tasty stuff").build(),
+                RecipeCommand.builder().id(2L).description("Yum yum").build()
         );
-        when(service.findAll()).thenReturn(givenSet);
+        when(service.findAllCommands()).thenReturn(givenSet);
 
         ArgumentCaptor<Set<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
 
@@ -57,7 +58,7 @@ class IndexControllerTest {
 
         //then
         assertEquals("index", viewName);
-        verify(service, times(1)).findAll();
+        verify(service, times(1)).findAllCommands();
         verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
 
         Set<Recipe> setInController = argumentCaptor.getValue();

@@ -16,14 +16,20 @@ public class RecipeController {
 
     @GetMapping("/{id}/show")
     public String showById(@PathVariable Long id, Model model) {
-        model.addAttribute("recipe", recipeService.findById(id));
+        model.addAttribute("recipe", recipeService.findCommandById(id));
         return "recipe/show";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
-        return "recipe/create";
+        return "recipe/create-or-update";
+    }
+
+    @GetMapping("/{id}/update")
+    public String update(@PathVariable Long id, Model model) {
+        model.addAttribute("recipe", recipeService.findCommandById(id));
+        return "recipe/create-or-update";
     }
 
     @PostMapping

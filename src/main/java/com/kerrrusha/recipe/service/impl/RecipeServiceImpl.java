@@ -1,10 +1,11 @@
-package com.kerrrusha.recipe.service;
+package com.kerrrusha.recipe.service.impl;
 
 import com.kerrrusha.recipe.command.RecipeCommand;
 import com.kerrrusha.recipe.converter.recipe.RecipeCommandToRecipeConverter;
 import com.kerrrusha.recipe.converter.recipe.RecipeToRecipeCommandConverter;
 import com.kerrrusha.recipe.model.Recipe;
 import com.kerrrusha.recipe.repository.RecipeRepository;
+import com.kerrrusha.recipe.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -31,9 +33,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Set<RecipeCommand> findAllCommands() {
-        Set<RecipeCommand> result = new HashSet<>();
-        recipeRepository.findAll().iterator().forEachRemaining(e -> result.add(recipeToRecipeCommandConverter.convert(e)));
-        return result;
+        return findAll().stream()
+                .map(recipeToRecipeCommandConverter::convert)
+                .collect(Collectors.toSet());
     }
 
     @Override

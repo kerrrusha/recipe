@@ -5,6 +5,7 @@ import com.kerrrusha.recipe.converter.recipe.RecipeCommandToRecipeConverter;
 import com.kerrrusha.recipe.converter.recipe.RecipeToRecipeCommandConverter;
 import com.kerrrusha.recipe.model.Recipe;
 import com.kerrrusha.recipe.repository.RecipeRepository;
+import com.kerrrusha.recipe.service.impl.RecipeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

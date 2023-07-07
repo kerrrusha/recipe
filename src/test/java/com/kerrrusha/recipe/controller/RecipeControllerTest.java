@@ -49,15 +49,15 @@ class RecipeControllerTest {
     }
 
     @Test
-    public void get() throws Exception {
+    public void createGet() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/create"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("recipe/create"))
+                .andExpect(view().name("recipe/create-or-update"))
                 .andExpect(model().attributeExists("recipe"));
     }
 
     @Test
-    public void create() throws Exception {
+    public void createPost() throws Exception {
         RecipeCommand command = RecipeCommand.builder().id(2L).build();
 
         when(service.saveRecipeCommand(any())).thenReturn(command);
@@ -76,7 +76,7 @@ class RecipeControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/update"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("recipe/create"))
+                .andExpect(view().name("recipe/create-or-update"))
                 .andExpect(model().attributeExists("recipe"));
     }
 

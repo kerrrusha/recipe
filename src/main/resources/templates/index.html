@@ -31,6 +31,7 @@
                         <th>Difficulty</th>
                         <th>Ingredients</th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -47,6 +48,7 @@
                         <td th:text="${recipe.getDifficulty()}">-</td>
                         <td th:text="${recipe.getIngredients()}">-</td>
                         <td><a href="#" th:href="@{'recipe/' + ${recipe.getId()} + '/show/'}">View</a></td>
+                        <td><a href="#" th:href="@{'recipe/' + ${recipe.getId()} + '/update/'}">Update</a></td>
                     </tr>
                     </tbody>
                 </table>

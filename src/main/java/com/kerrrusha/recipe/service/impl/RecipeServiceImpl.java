@@ -56,7 +56,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         assert detachedRecipe != null;
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
-        log.debug("Saved RecipeId:" + savedRecipe.getId());
+        log.debug("Saved RecipeId: " + savedRecipe.getId());
         return recipeToRecipeCommandConverter.convert(savedRecipe);
     }
 

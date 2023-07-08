@@ -54,10 +54,10 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="difficulty">Difficulty:</label>
-                                    <select id="difficulty" class="form-control">
-                                        <option>Easy</option>
-                                        <option>Medium</option>
-                                        <option>Hard</option>
+                                    <select id="difficulty" class="form-control" th:field="*{difficulty}">
+                                        <option th:each="difficultyValue : ${T(com.kerrrusha.recipe.model.Difficulty).values()}"
+                                                th:value="${difficultyValue.name()}"
+                                                th:text="${difficultyValue.name()}">DIFFICULTY_ENUM</option>
                                     </select>
                                 </div>
                             </div>

@@ -38,6 +38,7 @@ public class RecipeToRecipeCommandConverter implements Converter<Recipe, RecipeC
         command.setServingsMin(source.getServingsMin());
         command.setServingsMax(source.getServingsMax());
         command.setUrl(source.getUrl());
+        command.setImage(source.getImage());
         command.setNotes(notesConverter.convert(source.getNotes()));
 
         if (source.getCategories() != null && source.getCategories().size() > 0) {

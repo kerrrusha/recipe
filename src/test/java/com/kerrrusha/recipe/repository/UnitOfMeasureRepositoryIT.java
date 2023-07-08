@@ -20,9 +20,9 @@ class UnitOfMeasureRepositoryIT {
 
     @Test
     void findByName() {
-        Optional<UnitOfMeasure> result = repository.findByName("Teaspoon");
+        Optional<UnitOfMeasure> result = repository.findByName("Ounce");
         assertTrue(result.isPresent());
-        assertEquals("Teaspoon", result.get().getName());
+        assertEquals("Ounce", result.get().getName());
     }
 
 }

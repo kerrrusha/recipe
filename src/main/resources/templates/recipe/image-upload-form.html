@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: layout (~{::body},'image-upload-form')}">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Image Upload Form</title>
+</head>
+<body>
+<!--/*@thymesVar id="recipe" type="com.kerrrusha.recipe.command.RecipeCommand"*/-->
+<div class="container-fluid mt-3">
+  <div class="d-flex flex-row justify-content-center">
+    <div class="col-md-6 col-md-offset-3">
+      <div class="list-group">
+        <div class="card">
+          <div class="card-header bg-primary">
+            <strong class="text-white">Upload a new recipe image</strong>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <form action="" method="post" enctype="multipart/form-data"
+                       th:action="@{'/recipe/' + ${recipe.getId()} + '/image-upload'}">
+                  <label for="imagefile">Select File</label>
+                  <input id="imagefile" name="imagefile" type="file" class="form-control my-3">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

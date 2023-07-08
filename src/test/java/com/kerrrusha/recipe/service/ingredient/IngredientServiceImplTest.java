@@ -92,12 +92,12 @@ public class IngredientServiceImplTest {
     @Test
     public void testSaveIngredientCommand() {
         //given
-        IngredientCommand command = IngredientCommand.builder().id(3L).recipeId(2L).build();
+        final Long ingredientId = 3L;
+        IngredientCommand command = IngredientCommand.builder().id(ingredientId).recipeId(2L).build();
         Optional<Recipe> recipeOptional = Optional.of(new Recipe());
 
         Recipe savedRecipe = new Recipe();
-        savedRecipe.addIngredient(new Ingredient());
-        savedRecipe.getIngredients().iterator().next().setId(3L);
+        savedRecipe.addIngredient(Ingredient.builder().id(ingredientId).build());
 
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
         when(recipeRepository.save(any())).thenReturn(savedRecipe);

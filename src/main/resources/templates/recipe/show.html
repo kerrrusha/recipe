@@ -10,18 +10,24 @@
         <div class="px-5 py-3 col-md-6">
             <ul class="list-group list-group-flush">
                 <li class="card my-2">
-                    <div class="card-header bg-primary">
+                    <div class="card-header bg-primary d-flex flex-row justify-content-between">
                         <strong class="text-white" th:text="${recipe.description}">Recipe Description Here!</strong>
+                        <a class="btn btn-light" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/image-upload'}" role="button">Change Image</a>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
                                 <b>Categories:</b>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-3">
                                 <ul th:each="category:${recipe.getCategories()}">
                                     <li th:text="${category.getName()}">cat one</li>
                                 </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <img src="https://www.simplyrecipes.com/thmb/njUiutoyF5mHaiOIqnciEGjVFyk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/__opt__aboutcom__coeus__resources__content_migration__simply_recipes__uploads__2018__07__Guacamole-LEAD-1-47de4e6e47464daba88a7f42155a2af3.jpg"
+                                     width="200" height="200" alt="recipe image"
+                                     th:src="@{'/recipe/' + ${recipe.id} + '/image-get'}">
                             </div>
                         </div>
                         <div class="row">
@@ -57,7 +63,7 @@
                                 <b>URL:</b>
                             </div>
                             <div class="col-md-9">
-                                <a th:href="${recipe.getUrl()}" th:text="${recipe.getUrl()}"
+                                <a th:href="${recipe.getUrl()}" target="_blank" th:text="'Open in new tab'"
                                    href="https://www.google.com">google.com</a>
                             </div>
                         </div>

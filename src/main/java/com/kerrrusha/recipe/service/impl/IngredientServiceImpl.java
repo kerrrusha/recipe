@@ -65,23 +65,30 @@ public class IngredientServiceImpl implements IngredientService {
 
         Recipe savedRecipe = recipeRepository.save(recipe);
 
-        Ingredient savedIngredient = tryGetSavedIngredientById(savedRecipe, command)
-                .orElse(tryGetSavedIngredientByOtherFields(savedRecipe, command));
+//        Ingredient savedIngredient = tryGetSavedIngredientById(savedRecipe, command)
+//                .orElse(tryGetSavedIngredientByOtherFields(savedRecipe, command));
+
+        Optional<Ingredient> savedIngredientOptional = tryGetSavedIngredientById(savedRecipe, command);
+        if (savedIngredientOptional.isEmpty()) {
+            savedIngredientOptional = tryGetSavedIngredientByOtherFields(savedRecipe, command);
+        }
+        Ingredient savedIngredient = savedIngredientOptional
+                .orElseThrow(() -> new RuntimeException("Ingredient not found in recipe.id = " + savedRecipe.getId()));
 
         return ingredientToIngredientCommandConverter.convert(savedIngredient);
-    }
-
-    private Ingredient tryGetSavedIngredientByOtherFields(Recipe savedRecipe, IngredientCommand command) {
-        return savedRecipe.getIngredients().stream()
-                .filter(recipeIngredients -> recipeIngredients.getDescription().equals(command.getDescription()))
-                .filter(recipeIngredients -> recipeIngredients.getAmount().equals(command.getAmount()))
-                .filter(recipeIngredients -> recipeIngredients.getUnitOfMeasure().getId().equals(command.getUnitOfMeasure().getId()))
-                .findFirst().orElseThrow(() -> new RuntimeException("Ingredient not found in recipe.id = " + savedRecipe.getId()));
     }
 
     private Optional<Ingredient> tryGetSavedIngredientById(Recipe savedRecipe, IngredientCommand command) {
         return savedRecipe.getIngredients().stream()
                 .filter(ingredient -> ingredient.getId().equals(command.getId()))
+                .findFirst();
+    }
+
+    private Optional<Ingredient> tryGetSavedIngredientByOtherFields(Recipe savedRecipe, IngredientCommand command) {
+        return savedRecipe.getIngredients().stream()
+                .filter(recipeIngredients -> recipeIngredients.getDescription().equals(command.getDescription()))
+                .filter(recipeIngredients -> recipeIngredients.getAmount().equals(command.getAmount()))
+                .filter(recipeIngredients -> recipeIngredients.getUnitOfMeasure().getId().equals(command.getUnitOfMeasure().getId()))
                 .findFirst();
     }
 

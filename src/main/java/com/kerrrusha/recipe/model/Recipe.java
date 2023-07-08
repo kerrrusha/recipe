@@ -59,7 +59,12 @@ public class Recipe extends BaseEntity {
     }
 
     public void addIngredient(Ingredient ingredient) {
+        if (isNull(ingredients)) {
+            ingredients = new HashSet<>();
+        }
+
         this.ingredients.add(ingredient);
+
         if (nonNull(ingredient)) {
             ingredient.setRecipe(this);
         }

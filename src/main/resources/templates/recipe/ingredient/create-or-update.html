@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: layout (~{::body},'ingredient-create-or-update')}">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Edit Ingredient</title>
+</head>
+<body>
+<!--/*@thymesVar id="ingredient" type="com.kerrrusha.recipe.command.IngredientCommand"*/-->
+<div class="container-fluid mt-3">
+  <div class="d-flex flex-row justify-content-center">
+    <div class="col-md-6 col-md-offset-3">
+      <form th:object="${ingredient}" th:action="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredient'}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="list-group">
+          <div class="card">
+            <div class="card-header bg-primary">
+              <strong class="text-white">Edit Ingredient Information</strong>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3 form-group">
+                  <label for="description">Description:</label>
+                  <input id="description" type="text" class="form-control" th:field="*{description}"/>
+                </div>
+
+                <div class="col-md-3 form-group">
+                  <label for="amount">Amount:</label>
+                  <input id="amount" type="number" class="form-control" th:field="*{amount}"/>
+                </div>
+
+                <div class="col-md-3 form-group">
+                  <label for="uom">Unit Of Measure:</label>
+                  <select id="uom" class="form-control" th:field="*{unitOfMeasure.id}">
+                    <option th:each="uom : ${uomList}"
+                            th:value="${uom.id}"
+                            th:selected="${uom.id.equals(ingredient.unitOfMeasure.id)}"
+                            th:text="${uom.name}">Each</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

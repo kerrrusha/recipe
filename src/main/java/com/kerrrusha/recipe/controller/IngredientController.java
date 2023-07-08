@@ -1,6 +1,8 @@
 package com.kerrrusha.recipe.controller;
 
 import com.kerrrusha.recipe.command.IngredientCommand;
+import com.kerrrusha.recipe.command.UnitOfMeasureCommand;
+import com.kerrrusha.recipe.model.Recipe;
 import com.kerrrusha.recipe.service.IngredientService;
 import com.kerrrusha.recipe.service.RecipeService;
 import com.kerrrusha.recipe.service.UnitOfMeasureService;
@@ -9,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import static java.util.Objects.isNull;
 
 @Slf4j
 @Controller
@@ -34,6 +38,20 @@ public class IngredientController {
     public String get(@PathVariable Long recipeId, @PathVariable Long id, Model model) {
         model.addAttribute("ingredient", ingredientService.findCommandById(id));
         return "recipe/ingredient/show";
+    }
+
+    @GetMapping("/{recipeId}/ingredient/create")
+    public String create(@PathVariable Long recipeId, Model model) {
+        //make sure we have a good id value
+        Recipe recipe = recipeService.findById(recipeId);
+        if (isNull(recipe)) {
+            throw new RuntimeException("Recipe not exists by given id: " + recipeId);
+        }
+
+        IngredientCommand ingredientCommand = IngredientCommand.builder().recipeId(recipeId).unitOfMeasure(new UnitOfMeasureCommand()).build();
+        model.addAttribute("ingredient", ingredientCommand);
+        model.addAttribute("uomList",  unitOfMeasureService.findAllCommands());
+        return "recipe/ingredient/create-or-update";
     }
 
     @GetMapping("/{recipeId}/ingredient/{id}/update")

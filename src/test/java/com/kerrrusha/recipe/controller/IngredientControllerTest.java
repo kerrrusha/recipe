@@ -2,6 +2,7 @@ package com.kerrrusha.recipe.controller;
 
 import com.kerrrusha.recipe.command.IngredientCommand;
 import com.kerrrusha.recipe.command.RecipeCommand;
+import com.kerrrusha.recipe.model.Recipe;
 import com.kerrrusha.recipe.service.IngredientService;
 import com.kerrrusha.recipe.service.RecipeService;
 import com.kerrrusha.recipe.service.UnitOfMeasureService;
@@ -112,6 +113,25 @@ public class IngredientControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/ingredient/3/show"));
 
+    }
+
+    @Test
+    public void testCreateIngredientForm() throws Exception {
+        //given
+        Recipe recipe = Recipe.builder().id(1L).build();
+
+        //when
+        when(recipeService.findById(anyLong())).thenReturn(recipe);
+        when(unitOfMeasureService.findAllCommands()).thenReturn(new HashSet<>());
+
+        //then
+        mockMvc.perform(get("/recipe/1/ingredient/create"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/ingredient/create-or-update"))
+                .andExpect(model().attributeExists("ingredient"))
+                .andExpect(model().attributeExists("uomList"));
+
+        verify(recipeService, times(1)).findById(anyLong());
     }
 
 }

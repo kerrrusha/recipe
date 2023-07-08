@@ -49,14 +49,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     @Transactional
     public IngredientCommand saveIngredientCommand(IngredientCommand command) {
-        Optional<Recipe> recipeOptional = recipeRepository.findById(command.getRecipeId());
-
-        if (recipeOptional.isEmpty()) {
-            //todo handle error
-            log.error("Recipe not found for id: " + command.getRecipeId());
-            return new IngredientCommand();
-        }
-        Recipe recipe = recipeOptional.get();
+        Recipe recipe = checkIfRecipeExists(command);
 
         Optional<Ingredient> ingredientOptional = recipe
                 .getIngredients()
@@ -65,25 +58,49 @@ public class IngredientServiceImpl implements IngredientService {
                 .findFirst();
 
         if (ingredientOptional.isPresent()) {
-            Ingredient ingredientFound = ingredientOptional.get();
-            ingredientFound.setDescription(command.getDescription());
-            ingredientFound.setAmount(command.getAmount());
-            ingredientFound.setUnitOfMeasure(unitOfMeasureRepository
-                    .findById(command.getUnitOfMeasure().getId())
-                    .orElseThrow(() -> new RuntimeException("UnitOfMeasure NOT FOUND for ingredient.id = " + ingredientFound.getId())));
+            updateIngredient(ingredientOptional.get(), command);
         } else {
-            //add new Ingredient
             recipe.addIngredient(ingredientCommandToIngredientConverter.convert(command));
         }
 
         Recipe savedRecipe = recipeRepository.save(recipe);
 
-        Ingredient savedIngredient = savedRecipe.getIngredients().stream()
-                .filter(recipeIngredients -> recipeIngredients.getId().equals(command.getId()))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Ingredient not found in recipe.id = " + savedRecipe.getId()));
+        Ingredient savedIngredient = tryGetSavedIngredientById(savedRecipe, command)
+                .orElse(tryGetSavedIngredientByOtherFields(savedRecipe, command));
 
         return ingredientToIngredientCommandConverter.convert(savedIngredient);
+    }
+
+    private Ingredient tryGetSavedIngredientByOtherFields(Recipe savedRecipe, IngredientCommand command) {
+        return savedRecipe.getIngredients().stream()
+                .filter(recipeIngredients -> recipeIngredients.getDescription().equals(command.getDescription()))
+                .filter(recipeIngredients -> recipeIngredients.getAmount().equals(command.getAmount()))
+                .filter(recipeIngredients -> recipeIngredients.getUnitOfMeasure().getId().equals(command.getUnitOfMeasure().getId()))
+                .findFirst().orElseThrow(() -> new RuntimeException("Ingredient not found in recipe.id = " + savedRecipe.getId()));
+    }
+
+    private Optional<Ingredient> tryGetSavedIngredientById(Recipe savedRecipe, IngredientCommand command) {
+        return savedRecipe.getIngredients().stream()
+                .filter(ingredient -> ingredient.getId().equals(command.getId()))
+                .findFirst();
+    }
+
+    private void updateIngredient(Ingredient ingredientFound, IngredientCommand command) {
+        ingredientFound.setDescription(command.getDescription());
+        ingredientFound.setAmount(command.getAmount());
+        ingredientFound.setUnitOfMeasure(unitOfMeasureRepository
+                .findById(command.getUnitOfMeasure().getId())
+                .orElseThrow(() -> new RuntimeException("UnitOfMeasure NOT FOUND for ingredient.id = " + ingredientFound.getId())));
+    }
+
+    private Recipe checkIfRecipeExists(IngredientCommand command) {
+        //make sure we have expected recipe
+        Optional<Recipe> recipeOptional = recipeRepository.findById(command.getRecipeId());
+
+        if (recipeOptional.isEmpty()) {
+            throw new RuntimeException("Recipe not found for id: " + command.getRecipeId());
+        }
+        return recipeOptional.get();
     }
 
     @Override

@@ -89,7 +89,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         guacamole.setCategories(categories);
 
         UnitOfMeasure piece = new UnitOfMeasure();
-        piece.setName("piece");
+        piece.setName("Piece");
         unitOfMeasureRepository.save(piece);
 
         Ingredient ingredient1 = new Ingredient();
@@ -100,7 +100,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         guacamole.addIngredient(ingredient1);
 
         UnitOfMeasure teaspoon = new UnitOfMeasure();
-        teaspoon.setName("teaspoon");
+        teaspoon.setName("Teaspoon");
         unitOfMeasureRepository.save(teaspoon);
 
         Ingredient ingredient2 = new Ingredient();
